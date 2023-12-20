@@ -5,3 +5,19 @@ SELECT
     is_dynamic AS [Dynamique],	
     is_advanced AS [Avancé]	
 FROM sys.configurations;	
+
+
+
+
+-- Min memory per query (KB) :
+quantité minimale de mémoire en kilo-octets (KB) allouée à chaque requête lors de son exécution dans une base de données ou un système.
+ 
+ 
+Query governor cost limit :
+limite la quantité maximale de ressources, en termes de coût de requête, qu'une requête peut consommer lors de son exécution dans une base de données.
+ 
+Query wait (s) :
+spécifie la durée maximale en secondes qu'une requête peut attendre pour être exécutée avant d'être interrompue en raison d'un dépassement de délai
+ 
+Remote query timeout (s) :
+la durée maximale en secondes que le système attendra pour l'exécution d'une requête distante avant de l'interrompre en raison d'un dépassement de délai
