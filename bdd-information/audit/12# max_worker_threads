@@ -1,0 +1,7 @@
+-- Sélectionner le statut réel de la configuration "max worker threads"	
+SELECT	
+    'max worker threads' AS [Configuration Name],	
+    value AS [Configured Value],	
+    value_in_use AS [Currently Used Value]	
+FROM sys.configurations	
+WHERE name = 'max worker threads';	
