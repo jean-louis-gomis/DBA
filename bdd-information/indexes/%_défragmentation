@@ -17,3 +17,35 @@ FROM sys.dm_db_index_physical_stats(DB_ID(), NULL, NULL, NULL, NULL) ips
 JOIN sys.indexes i ON ips.object_id = i.object_id AND ips.index_id = i.index_id
 WHERE ips.page_count > 10
 ORDER BY [frag%] DESC, [table], i.index_id, alloc;
+
+
+
+
+
+------------------------------------------------------------------------------------------
+-- Deuxième solution
+--
+------------------------------------------------------------------------------------------
+
+SELECT
+    DB_NAME(database_id) AS 'Nom de la base de données',
+    OBJECT_NAME(object_id) AS 'Nom de l\'objet',
+    i.name AS 'Nom de l\'index',
+    index_type_desc AS 'Type d\'index',
+    AVG(avg_fragmentation_in_percent) AS 'Taux de fragmentation moyen (%)',
+    SUM(page_count) AS 'Nombre total de pages',
+    MAX(index_depth) AS 'Profondeur maximale de l\'index',
+    SUM(record_count) AS 'Nombre total d\'enregistrements'
+FROM
+    sys.dm_db_index_physical_stats(DB_ID(), NULL, NULL, NULL, 'DETAILED') ps
+JOIN
+    sys.indexes i ON ps.object_id = i.object_id AND ps.index_id = i.index_id
+WHERE
+    avg_fragmentation_in_percent > 10 -- Vous pouvez ajuster ce seuil selon vos besoins
+GROUP BY
+    DB_NAME(database_id),
+    OBJECT_NAME(object_id),
+    i.name,
+    index_type_desc
+ORDER BY
+    AVG(avg_fragmentation_in_percent) DESC;
