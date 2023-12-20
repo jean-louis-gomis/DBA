@@ -1,6 +1,0 @@
--- Obtenir le statut du mode de récupération (recovery model) pour toutes les bases de données, sauf les bases système
-SELECT
-    name AS Database_name,
-    recovery_model_desc
-FROM sys.databases
-WHERE database_id > 4; -- Exclure les bases de données système (les bases de données système ont database_id <= 4)
