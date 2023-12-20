@@ -1,0 +1,4 @@
+-- Exécutez la requête pour obtenir les propriétaires de toutes les bases de données, en excluant les bases de données système						
+SELECT name AS NomDeLaBaseDeDonnées, SUSER_SNAME(owner_sid) AS Propriétaire						
+FROM sys.databases						
+WHERE database_id > 4; -- Exclure les bases de données système	
