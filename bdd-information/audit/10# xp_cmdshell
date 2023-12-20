@@ -5,3 +5,9 @@ SELECT
     CAST(value_in_use AS INT) AS [Currently Used Value (MB)]	
 FROM sys.configurations	
 WHERE name = 'show advanced options';	
+
+
+
+
+
+-- L 'option "xp_cmdshell" permet d'exécuter des commandes système à partir du moteur de base de données. Cela permet d'effectuer des opérations système ou des tâches administratives directement depuis SQL Server, comme l'exécution de scripts batch, la gestion de fichiers ou l'interaction avec d'autres applications système. 
