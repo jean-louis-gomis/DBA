@@ -5,3 +5,12 @@ SELECT
     value_in_use AS [Currently Used Value]	
 FROM sys.configurations	
 WHERE name = 'max worker threads';	
+
+
+
+
+
+
+-- La valeur de "Max worker threads" détermine le nombre maximal de threads de travail disponibles. Lorsque ce nombre est atteint, les nouvelles requêtes doivent attendre qu'un thread de travail se libère avant d'être traitées. Si le nombre de threads de travail est trop bas par rapport à la charge du système, cela peut entraîner des temps de réponse plus longs pour les requêtes et une diminution des performances.
+La valeur par défaut étant de 0, le nombre optimal de threads est déterminée automatiquement en fonction du nombre de processeurs
+
