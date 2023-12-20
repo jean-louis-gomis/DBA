@@ -5,3 +5,9 @@ SELECT
     value_in_use AS [Currently Used Value]	
 FROM sys.configurations	
 WHERE name = 'Ole Automation Procedures';	
+
+
+
+
+
+-- Dans certains cas, l'utilisation des procédures OLE Automation dans SQL Server peut être associée à l'intégration de Sage avec d'autres systèmes ou à l'automatisation de certaines tâches liées à Sage. Par exemple, vous pourriez utiliser les procédures OLE Automation pour extraire des données de Sage, les importer ou les synchroniser avec une base de données SQL Server, ou pour effectuer des opérations spécifiques dans Sage à partir de SQL Server.
