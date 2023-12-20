@@ -1,0 +1,30 @@
+-- Nom de l'instance, mémoire totale du serveur, max server memory actuelle et 70% de la mémoire totale		
+DECLARE @TotalMemoryGB DECIMAL(18, 2);		
+DECLARE @InstanceName NVARCHAR(128);		
+DECLARE @MaxServerMemoryGB DECIMAL(18, 2);		
+		
+SELECT		
+    @TotalMemoryGB = CAST(physical_memory_kb / 1024. / 1024. AS DECIMAL(18, 2))		
+FROM		
+    sys.dm_os_sys_info;		
+		
+-- Récupérer le nom de l'instance SQL Server		
+SELECT		
+    @InstanceName = COALESCE(		
+        CAST(SERVERPROPERTY('MachineName') AS NVARCHAR(128)) + '\' + CAST(SERVERPROPERTY('InstanceName') AS NVARCHAR(128)),		
+        CAST(SERVERPROPERTY('MachineName') AS NVARCHAR(128))		
+    );		
+		
+SELECT		
+    @MaxServerMemoryGB = CONVERT(DECIMAL(18, 2), CONVERT(INT, value) / 1024.0)		
+FROM		
+    sys.configurations		
+WHERE		
+    name = 'max server memory (MB)';		
+		
+-- Afficher toutes les colonnes ainsi que 70% de la mémoire totale avec un alias		
+SELECT		
+    @InstanceName AS NomInstance,		
+    @MaxServerMemoryGB AS MaxServerMemoryActuelle,		
+    @TotalMemoryGB AS MemoireTotale,		
+    ROUND(@TotalMemoryGB * 0.7, 2) AS [70%MemoireTotale]; -- Renommer la colonne		
