@@ -21,3 +21,19 @@ FROM sys.indexes
 WHERE fill_factor BETWEEN 1 AND 99
 ORDER BY [table], [index]
 OPTION (RECOMPILE, MAXDOP 1);
+
+
+
+
+
+-- Le facteur de remplissage (fill factor) est une propriété des index dans une base de données. Il spécifie le pourcentage d'espace sur chaque page d'index qui doit être rempli avec des données. Un facteur de remplissage inférieur à 100% laisse de l'espace libre sur les pages d'index, ce qui peut être utile pour éviter une fragmentation des données et réduire les besoins de maintenance.
+
+Voici comment le facteur de remplissage fonctionne :
+
+Facteur de remplissage à 100% : L'index remplit toutes les pages au maximum de leur capacité avec des données. Cela peut entraîner une fragmentation plus rapide, car les données insérées ou mises à jour peuvent nécessiter de déplacer des lignes vers de nouvelles pages.
+
+Facteur de remplissage inférieur à 100% : Une partie de l'espace sur chaque page est laissée vide pour accueillir de futures insertions ou mises à jour. Cela peut réduire la fragmentation, car il y a plus d'espace pour les opérations de modification.
+
+L'objectif du facteur de remplissage est d'optimiser les performances des opérations d'insertion et de mise à jour en minimisant la fragmentation. Cependant, l'utilisation d'un facteur de remplissage inférieur à 100% signifie également que l'index peut occuper plus d'espace sur le disque.
+
+Dans le script que vous avez partagé, les index avec un facteur de remplissage compris entre 1 et 99 sont sélectionnés, et des instructions ALTER INDEX sont générées pour reconstruire ces index avec un facteur de remplissage de 100. Cela peut être utile pour réduire la fragmentation des index.
