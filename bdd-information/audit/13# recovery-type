@@ -4,3 +4,15 @@ SELECT
     recovery_model_desc
 FROM sys.databases
 WHERE database_id > 4; -- Exclure les bases de données système (les bases de données système ont database_id <= 4)
+
+
+
+
+
+
+
+
+-- Il existe trois modes de récupération principaux dans SQL Server : Simple, Full et Bulk-Logged. Choisissez le mode qui correspond le mieux à vos besoins en matière de sauvegarde, de récupération et de tolérance aux pannes. Les principaux points à prendre en compte sont :
+Mode de récupération Simple : Utilisé pour les bases de données qui n'ont pas besoin d'une récupération point dans le temps et où les pertes de données sont acceptables. Il simplifie la gestion des journaux de transactions, mais limite les possibilités de récupération.
+Mode de récupération Full : Utilisé pour les bases de données nécessitant une récupération point dans le temps complète. Il permet la restauration jusqu'à un point précis dans le temps et prend en charge les journaux de transaction en continu.
+Mode de récupération Bulk-Logged : Principalement utilisé pour les opérations de chargement en masse qui génèrent de grands volumes de transactions. Il offre un compromis entre les modes Simple et Full.
