@@ -1,0 +1,16 @@
+ITEM	                                  RECOMMANDATIONS	                      Constaté le	                       Modifié le
+1# Edition & Version			
+2# Evolution du Disque			
+3# Racine_SQL Server			
+4# Chemin_stockage			
+5# Espace_disque_BDD			
+6# Owners_BDD	2 en non sa		
+7# L’auto-redimensionnement	             7 Default 17 UNRESTRECTED		
+8# Paramètres_configuration			
+9# Max_Server_Memory	                   MaxServerMemory à réajuster		
+10# Xp_cmdshell			
+11# Ole Automation Procedures			
+12# Max worker threads			
+13# Recovery Full & Simple	              SIMPLE		
+14# Backup	QUOTIDIENNE		
+15# Plan de Maintenance	NULL		
