@@ -1,19 +1,24 @@
------------------------------------------------------------------
--- generate code to change database owner to sa on all database
--- where it is not yet the case.
---
--- rudi@babaluga.com, go ahead license
------------------------------------------------------------------
-
 SET NOCOUNT ON;
 SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
 
+DECLARE @collation sysname = 'French_CI_AS';
+
+DECLARE @sqlCommands TABLE (Command NVARCHAR(MAX));
+
+INSERT INTO @sqlCommands (Command)
 SELECT 
-	name as db, 
-	SUSER_SNAME(owner_sid) as [owner],
-	CONCAT('ALTER AUTHORIZATION ON DATABASE::', QUOTENAME(name), ' TO [sa]') as ddl
+    CONCAT('ALTER AUTHORIZATION ON DATABASE::', QUOTENAME(name), ' TO [sa]')
 FROM sys.databases
 WHERE database_id > 4
-AND owner_sid <> 0x01
-ORDER BY db
-OPTION (RECOMPILE, MAXDOP 1);
+AND owner_sid <> 0x01;
+
+DECLARE @sql NVARCHAR(MAX);
+
+WHILE EXISTS (SELECT 1 FROM @sqlCommands)
+BEGIN
+    SELECT TOP 1 @sql = Command FROM @sqlCommands;
+
+    EXEC sp_executesql @sql;
+
+    DELETE FROM @sqlCommands WHERE Command = @sql;
+END;
