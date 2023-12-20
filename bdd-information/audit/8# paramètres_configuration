@@ -1,0 +1,7 @@
+SELECT	
+    name AS [Nom du paramètre],	
+    value AS [Valeur du paramètre],	
+    description AS [Description du paramètre],	
+    is_dynamic AS [Dynamique],	
+    is_advanced AS [Avancé]	
+FROM sys.configurations;	
