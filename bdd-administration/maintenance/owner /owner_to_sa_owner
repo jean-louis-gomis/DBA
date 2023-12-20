@@ -1,0 +1,24 @@
+SET NOCOUNT ON;
+SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
+
+DECLARE @collation sysname = 'French_CI_AS';
+
+DECLARE @sqlCommands TABLE (Command NVARCHAR(MAX));
+
+INSERT INTO @sqlCommands (Command)
+SELECT 
+    CONCAT('ALTER AUTHORIZATION ON DATABASE::', QUOTENAME(name), ' TO [sa]')
+FROM sys.databases
+WHERE database_id > 4
+AND owner_sid <> 0x01;
+
+DECLARE @sql NVARCHAR(MAX);
+
+WHILE EXISTS (SELECT 1 FROM @sqlCommands)
+BEGIN
+    SELECT TOP 1 @sql = Command FROM @sqlCommands;
+
+    EXEC sp_executesql @sql;
+
+    DELETE FROM @sqlCommands WHERE Command = @sql;
+END;
