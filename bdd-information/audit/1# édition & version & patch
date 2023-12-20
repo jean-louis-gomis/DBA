@@ -1,0 +1,8 @@
+-- Afficher le nom du serveur, l'édition et la version de SQL Server, l'édition et la version de Windows Server		
+SELECT		
+    SERVERPROPERTY('MachineName') AS ServerName,		
+    SERVERPROPERTY('Edition') AS SQLServerEdition,		
+    SERVERPROPERTY('ProductVersion') AS SQLServerVersion,		
+    @@VERSION AS FullVersion,		
+    SERVERPROPERTY('ProductLevel') AS WindowsEdition,		
+    SERVERPROPERTY('Edition') AS WindowsVersion		
