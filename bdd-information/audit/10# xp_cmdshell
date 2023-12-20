@@ -1,0 +1,7 @@
+-- Sélectionner la configuration de xp_cmdshell	
+SELECT	
+    'xp_cmdshell' AS [Configuration Name],	
+    CAST(value AS INT) AS [Configured Value (MB)],	
+    CAST(value_in_use AS INT) AS [Currently Used Value (MB)]	
+FROM sys.configurations	
+WHERE name = 'show advanced options';	
