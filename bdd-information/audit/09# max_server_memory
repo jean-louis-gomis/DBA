@@ -28,3 +28,8 @@ SELECT
     @MaxServerMemoryGB AS MaxServerMemoryActuelle,		
     @TotalMemoryGB AS MemoireTotale,		
     ROUND(@TotalMemoryGB * 0.7, 2) AS [70%MemoireTotale]; -- Renommer la colonne		
+
+
+
+
+-- Pour limiter la quantité de RAM que le serveur utilise, il existe une fonctionnalité de Microsoft SQL Server qui permet de bridée la mémoire. La mémoire bridée peut être utilisée pour réduire les effets négatifs des applications intensive en mémoire qui consomment la majeure partie de la RAM disponible. La mémoire bridée peut également être utilisée pour empêcher les débordements ou les fuites de mémoire qui peuvent entraîner des ralentissements et des dysfonctionnements.
