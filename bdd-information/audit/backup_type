@@ -1,0 +1,11 @@
+SELECT			
+    b.database_name AS [Nom de la Base de Données],			
+    b.backup_start_date AS [Date de Début de Sauvegarde],			
+    b.backup_finish_date AS [Date de Fin de Sauvegarde],			
+    b.type AS [Type de Sauvegarde],			
+    m.physical_device_name AS [Chemin du Fichier de Sauvegarde]			
+FROM msdb.dbo.backupset AS b			
+JOIN msdb.dbo.backupmediafamily AS m ON b.media_set_id = m.media_set_id			
+JOIN sys.databases AS d ON b.database_name = d.name			
+WHERE d.database_id > 4 -- Exclut les bases système			
+ORDER BY b.backup_start_date DESC;			
