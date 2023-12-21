@@ -1,0 +1,47 @@
+-- Informations sur le système d'exploitation
+SELECT 'Windows Release' as info, windows_release as value
+FROM sys.dm_os_windows_info WITH (READUNCOMMITTED)
+UNION ALL
+SELECT 'Total Physical Memory (GB)', total_physical_memory_kb / 1024 / 1024.0
+FROM sys.dm_os_sys_memory WITH (READUNCOMMITTED)
+UNION ALL
+SELECT 'CPU Count', COUNT(*)
+FROM sys.dm_os_schedulers WITH (READUNCOMMITTED)
+WHERE status = 'VISIBLE ONLINE' AND is_online = 1;
+
+-- Informations sur la base de données
+SELECT 'Memory Allocated to Database (GB)', (physical_memory_in_use_kb / 1024.0) AS value
+FROM sys.dm_os_process_memory WITH (READUNCOMMITTED)
+UNION ALL
+SELECT 'System Disk Space (GB)', total_bytes / 1024 / 1024 / 1024.0
+FROM sys.master_files WITH (READUNCOMMITTED)
+WHERE database_id = DB_ID('PWISBDDEV01');
+
+-- Informations sur les versions
+SELECT 'OS Version', CAST(SERVERPROPERTY('ProductVersion') AS NVARCHAR(100)) AS value
+UNION ALL
+SELECT 'Database Version', CAST(SERVERPROPERTY('ProductVersion') AS NVARCHAR(100)) AS value;
+
+-- Informations sur l'indexation
+SELECT 'General Indexing Rate', value
+FROM sys.dm_db_index_usage_stats WITH (READUNCOMMITTED)
+WHERE database_id = DB_ID('PWISBDDEV01') AND object_id = OBJECT_ID('YourTableName'); -- Remplacez 'YourTableName' par le nom de votre table.
+
+-- Performances de la requête
+-- (Vous pouvez ajouter des requêtes spécifiques pour mesurer la performance des requêtes)
+
+-- Type de sauvegarde
+SELECT 'Backup Type', type
+FROM msdb.dbo.backupset WITH (READUNCOMMITTED)
+WHERE database_name = 'PWISBDDEV01'
+ORDER BY backup_start_date DESC
+LIMIT 1;
+
+-- Job présent
+SELECT 'Job Present', CASE WHEN COUNT(*) > 0 THEN 'Yes' ELSE 'No' END AS value
+FROM msdb.dbo.sysjobs WITH (READUNCOMMITTED);
+
+-- Ports ouverts
+-- (Ajoutez votre logique pour obtenir les ports ouverts)
+
+-- Ajoutez d'autres requêtes selon vos besoins pour obtenir les informations restantes.
