@@ -1,0 +1,42 @@
+-- Afficher le nom du serveur, l'édition et la version de SQL Server, l'édition et la version de Windows Server
+SELECT
+    SERVERPROPERTY('MachineName') AS ServerName,
+    SERVERPROPERTY('Edition') AS SQLServerEdition,
+    @@VERSION AS FullVersion,
+    SERVERPROPERTY('ProductLevel') AS WindowsEdition,
+    cpu_count AS NumberOfCPUs,
+    physical_memory_kb / 1024 AS TotalPhysicalMemory_MB,
+    (SELECT value_in_use FROM sys.configurations WHERE name = 'max server memory (MB)') AS MaxServerMemory_MB
+FROM sys.dm_os_sys_info
+CROSS JOIN sys.dm_os_process_memory;
+
+-- Créez la table temporaire pour stocker les informations d'espace
+CREATE TABLE #SpaceInfo (
+    DatabaseName NVARCHAR(128),
+    TotalSizeMB FLOAT,
+    UsedSpaceMB FLOAT
+);
+
+-- Récupérer les informations d'espace en excluant les bases de données système
+INSERT INTO #SpaceInfo (DatabaseName, TotalSizeMB, UsedSpaceMB)
+SELECT
+    DB_NAME(database_id) AS DatabaseName,
+    SUM(size * 8.0 / 1024) AS TotalSizeMB,
+    SUM(CASE WHEN type_desc = 'ROWS' THEN size ELSE 0 END) * 8.0 / 1024 AS UsedSpaceMB
+FROM sys.master_files
+WHERE database_id > 4  -- Exclure les bases de données système
+GROUP BY database_id;
+
+-- Affichez les informations d'espace
+SELECT * FROM #SpaceInfo;
+
+DROP TABLE #SpaceInfo;
+
+-- Tous les parametres Perfo
+SELECT
+    name AS [Nom du paramètre],
+    value AS [Valeur du paramètre],
+    description AS [Description du paramètre],
+    is_dynamic AS [Dynamique],
+    is_advanced AS [Avancé]
+FROM sys.configurations;
