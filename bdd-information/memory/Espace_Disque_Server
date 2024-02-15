@@ -1,0 +1,22 @@
+SET NOCOUNT ON;
+SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
+
+-- Création d'une table temporaire pour stocker les résultats
+CREATE TABLE #DriveSpaceInfo (
+    DriveLetter VARCHAR(3),
+    FreeSpaceGB DECIMAL(18, 2)
+);
+
+-- Insertion des résultats dans la table temporaire
+INSERT INTO #DriveSpaceInfo (DriveLetter, FreeSpaceGB)
+EXEC xp_fixeddrives;
+
+-- Sélection des résultats de la table temporaire
+SELECT 
+    DriveLetter AS [Drive],
+    FreeSpaceGB / 1024.0 AS [Free_GB]
+FROM 
+    #DriveSpaceInfo;
+
+-- Suppression de la table temporaire
+DROP TABLE #DriveSpaceInfo;
